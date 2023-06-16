@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alura | Challenge 1</title>
+
+    <link href="css/reset.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site__header">
+      <img
+        class="image__header"
+        src="image/Vector.png"
+        alt="Logo de Alura Latam"
+      />
+    </header>
+
+    <main class="container">
+      <section class="section__cipher">
+        <textarea
+          class="content__cipher"
+          placeholder="Ingrese el texto aqui"
+          autofocus
+          oninput="validateText()"
+        ></textarea>
+
+        <span class="description__cipher"
+          >Solo letras minúsculas y sin acentos</span
+        >
+
+        <div class="cipher__button">
+          <button class="btn__encrypt" onclick="encrypt()">Encriptar</button>
+
+          <button class="btn__decrypt" onclick="decrypt()">Desencriptar</button>
+        </div>
+      </section>
+
+      <section class="section__view">
+        <textarea class="content__view" readonly></textarea>
+
+        <div class="description__content">
+          <p>Ningún mensaje fue encontrado</p>
+          <p>Ingresa el texto que desees encriptar o desencriptar.</p>
+        </div>
+
+        <button class="btn__copy" onclick="copyEncryption()">Copiar</button>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
