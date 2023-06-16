@@ -20,7 +20,10 @@ function encrypt() {
         descriptionView.style.display = "none";
 
         let  btnCopy = document.querySelector(".btn__copy");
-        btnCopy.style.display = "flex"
+        btnCopy.style.display = "flex";
+
+        let btnDecrypt = document.querySelector(".btn__decrypt");
+        btnDecrypt.style.background = "white";
         
         return encripted;
    
@@ -53,6 +56,9 @@ function decrypt() {
         let descriptionView = document.querySelector(".description__content");
         descriptionView.style.display = "none";
 
+        let btnDecrypt = document.querySelector(".btn__decrypt");
+        btnDecrypt.style.background = "white";
+
         let  btnCopy = document.querySelector(".btn__copy");
         btnCopy.style.display = "flex"
         
@@ -83,6 +89,9 @@ function copyEncryption() {
 
     let  btnCopy = document.querySelector(".btn__copy");
     btnCopy.style.display = "";
+
+    let btnDecrypt = document.querySelector(".btn__decrypt");
+        btnDecrypt.style.background = "";
 
 }
 
