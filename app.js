@@ -91,7 +91,17 @@ function validateText() {
 }
 $contentCipher.addEventListener("input", validateText);
 
-//para tener control sobre los clicks
+// Controlar el estado de los botones en función del contenido ingresado
+function controlButtonsOn() {
+  let text = $contentCipher.value;
+
+  $btnEncrypt.disabled = text === "";
+  $btnDecrypt.disabled = text === "";
+}
+
+$contentCipher.addEventListener("input", controlButtonsOn);
+
+//tener control sobre los clicks
 function handleClickButtons(event) {
   let text = $contentCipher.value;
 
@@ -103,21 +113,13 @@ function handleClickButtons(event) {
   const CLICKED_BTN = event.target;
 
   if (CLICKED_BTN.id === "btn__encrypt") {
-    $btnDecrypt.disabled = true;
     encrypt();
   }
 
   if (CLICKED_BTN.id === "btn__decrypt") {
-    $btnEncrypt.disabled = true;
     decrypt();
-  }
-
-  if (CLICKED_BTN.id === "btn__copy") {
-    $btnEncrypt.disabled = false;
-    $btnDecrypt.disabled = false;
   }
 }
 
 $btnEncrypt.addEventListener("click", handleClickButtons);
 $btnDecrypt.addEventListener("click", handleClickButtons);
-$btnCopy.addEventListener("click", handleClickButtons);
