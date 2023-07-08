@@ -1,97 +1,123 @@
+// Simplifica la seleccion de DOM, para evitar codigo repetitivo
+const $ = (selector) => document.querySelector(selector);
+
+const $contentCipher = $("#content__cipher");
+const $contentView = $("#content__view");
+const $descriptionView = $("#description__content");
+const $btnEncrypt = $("#btn__encrypt");
+const $btnDecrypt = $("#btn__decrypt");
+const $btnCopy = $("#btn__copy");
+
 function encrypt() {
-  let contentCipher = document.querySelector(".content__cipher");
-  let phrase = contentCipher.value;
+  let phrase = $contentCipher.value;
 
-  if (phrase !== "") {
-    let encripted = phrase
-      .replace(/e/g, "enter")
-      .replace(/i/g, "imes")
-      .replace(/a/g, "ai")
-      .replace(/o/g, "ober")
-      .replace(/u/g, "ufat");
+  let encripted = phrase
+    .replace(/e/g, "enter")
+    .replace(/i/g, "imes")
+    .replace(/a/g, "ai")
+    .replace(/o/g, "ober")
+    .replace(/u/g, "ufat");
 
-    let contetView = document.querySelector(".content__view");
-    contetView.value = encripted;
-    contetView.style.background = "none";
+  $contentView.value = encripted;
+  $contentView.style.background = "none";
 
-    let descriptionView = document.querySelector(".description__content");
-    descriptionView.style.display = "none";
+  $descriptionView.style.display = "none";
 
-    let btnCopy = document.querySelector(".btn__copy");
-    btnCopy.style.display = "flex";
+  $btnDecrypt.style.cssText = "background: white; color: #0a3871";
 
-    let btnDecrypt = document.querySelector(".btn__decrypt");
-    btnDecrypt.style.background = "white";
+  $btnCopy.style.display = "flex";
 
-    return encripted;
-  } else {
-    alert("Ingresa el texto que desees encriptar o desencriptar.");
-  }
+  return encripted;
 }
 
 function decrypt() {
-  let contentCipher = document.querySelector(".content__cipher");
-  let encripted = contentCipher.value;
+  let encripted = $contentCipher.value;
 
-  if (encripted !== "") {
-    let decrypted = encripted
-      .replace(/enter/g, "e")
-      .replace(/imes/g, "i")
-      .replace(/ai/g, "a")
-      .replace(/ober/g, "o")
-      .replace(/ufat/g, "u");
+  let decrypted = encripted
+    .replace(/enter/g, "e")
+    .replace(/imes/g, "i")
+    .replace(/ai/g, "a")
+    .replace(/ober/g, "o")
+    .replace(/ufat/g, "u");
 
-    let contetView = document.querySelector(".content__view");
-    contetView.value = decrypted;
-    contetView.style.background = "none";
+  $contentView.value = decrypted;
+  $contentView.style.background = "none";
 
-    let descriptionView = document.querySelector(".description__content");
-    descriptionView.style.display = "none";
+  $descriptionView.style.display = "none";
 
-    let btnDecrypt = document.querySelector(".btn__decrypt");
-    btnDecrypt.style.background = "white";
+  $btnDecrypt.style.cssText = "background: white; color: #0a3871";
 
-    let btnCopy = document.querySelector(".btn__copy");
-    btnCopy.style.display = "flex";
+  $btnCopy.style.display = "flex";
 
-    return decrypted;
-  } else {
-    alert("Ingresa el texto que desees encriptar o desencriptar.");
-  }
+  return decrypted;
 }
 
 function copyEncryption() {
-  let contentView = document.querySelector(".content__view");
-  contentView.select();
-  navigator.clipboard.writeText(contentView.value);
+  // copiar el texto con API portapapeles
+  $contentView.select();
+  navigator.clipboard.writeText($contentView.value);
   alert("Mensaje copiado");
 
-  let contentCipher = document.querySelector(".content__cipher");
-  contentCipher.value = contentView.value;
+  $contentCipher.value = $contentView.value;
+  $contentView.value = "";
 
-  contentView.value = "";
-  contentView.style.background = "";
+  $contentView.style.background = "";
 
-  let descriptionView = document.querySelector(".description__content");
-  descriptionView.style.display = "";
+  $descriptionView.style.display = "";
 
-  let btnCopy = document.querySelector(".btn__copy");
-  btnCopy.style.display = "";
+  $btnDecrypt.style.cssText = "";
 
-  let btnDecrypt = document.querySelector(".btn__decrypt");
-  btnDecrypt.style.background = "";
+  $btnCopy.style.display = "";
+
+  $contentCipher.focus();
 }
+$btnCopy.addEventListener("click", copyEncryption);
 
+//Para controlar el ingreso de texto no requierdo.
 function validateText() {
-  let contentCipher = document.querySelector(".content__cipher");
-  let text = contentCipher.value;
+  let text = $contentCipher.value;
+  const VALIDATE = /^[a-zñ\s]+$/;
 
-  if (text !== "") {
-    const validate = /^[a-zñ\s]+$/;
+  // evitar que las siguientes reglas se ejecuten si el campo de texto esta vacio
+  if (text === "") {
+    return;
+  }
 
-    if (!validate.test(text)) {
-      contentCipher.value = text.replace(/[^a-zñ\s]/g, "");
-      alert("Solo letras minúsculas y sin acentos");
-    }
+  // si no cumple lo propuesto por VALIDATE se previene el ingreso de valor contrario a lo propuesto.
+  if (!VALIDATE.test(text)) {
+    $contentCipher.value = text.replace(/[^a-zñ\s]/g, "");
+    alert("Solo letras minúsculas y sin acentos");
   }
 }
+$contentCipher.addEventListener("input", validateText);
+
+//para tener control sobre los clicks
+function handleClickButtons(event) {
+  let text = $contentCipher.value;
+
+  if (text === "") {
+    alert("Ingrese el texto que desea encriptar o desencriptar.");
+    return;
+  }
+
+  const CLICKED_BTN = event.target;
+
+  if (CLICKED_BTN.id === "btn__encrypt") {
+    $btnDecrypt.disabled = true;
+    encrypt();
+  }
+
+  if (CLICKED_BTN.id === "btn__decrypt") {
+    $btnEncrypt.disabled = true;
+    decrypt();
+  }
+
+  if (CLICKED_BTN.id === "btn__copy") {
+    $btnEncrypt.disabled = false;
+    $btnDecrypt.disabled = false;
+  }
+}
+
+$btnEncrypt.addEventListener("click", handleClickButtons);
+$btnDecrypt.addEventListener("click", handleClickButtons);
+$btnCopy.addEventListener("click", handleClickButtons);

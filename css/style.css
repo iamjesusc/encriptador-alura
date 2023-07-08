@@ -61,6 +61,7 @@ body {
   border: none;
   resize: none;
   outline: none;
+  background-color: transparent;
 }
 
 .content__cipher:focus {
